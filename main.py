@@ -15,8 +15,8 @@ chrome_options.add_argument('--headless')
 chrome_options.add_argument('--no-sandbox')
 chrome_options.add_argument('--disable-dev-shm-usage')
 
-csv_folder = "/content/drive/MyDrive/Colab Notebooks/skw scraping/NYTaxes.csv"
-# csv_folder = "/NYTaxes.csv"
+# csv_folder = "/content/drive/MyDrive/Colab Notebooks/skw scraping/NYTaxes.csv"
+csv_folder = "/NYTaxes.csv"
 
 f = open(csv_folder, "w")
 
@@ -26,8 +26,8 @@ headers = ["borough", "block", "lot", "bbl", "accountBalanceErrors"]
 
 writer.writerow(headers)
 
-# project_id = "skw-test"
-project_id = "carl-test-345816"
+project_id = "skw-test"
+# project_id = "carl-test-345816"
 client = bigquery.Client(project=project_id)
 
 query = "SELECT borough,block,lot,bbl FROM `skw-test.test_cloud_function.filteredPropertiesNY` LIMIT 300"
