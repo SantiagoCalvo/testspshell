@@ -33,7 +33,7 @@ project_id = "skw-test"
 client = bigquery.Client(project=project_id)
 
 # query = "SELECT borough,block,lot,bbl FROM `skw-test.test_cloud_function.filteredPropertiesNY` LIMIT 30"
-query = "SELECT borough,block,lot,bbl FROM (SELECT borough,block,lot,bbl, ROW_NUMBER () OVER(ORDER BY bbl DESC) AS windex FROM `skw-test.test_cloud_function.filteredPropertiesNY`) WHERE windex BETWEEN 1 AND 1000"
+query = "SELECT borough,block,lot,bbl FROM (SELECT borough,block,lot,bbl, ROW_NUMBER () OVER(ORDER BY bbl DESC) AS windex FROM `skw-test.test_cloud_function.filteredPropertiesNY`) WHERE windex BETWEEN 1 AND 100"
 # query = "SELECT borough,block,lot,bbl FROM (SELECT borough,block,lot,bbl, ROW_NUMBER () OVER(ORDER BY bbl DESC) AS windex FROM `carl-test-345816.assessor_result.properties_ny`) WHERE windex BETWEEN 5 AND 10"
 # query = "SELECT borough,block,lot,bbl FROM `carl-test-345816.assessor_result.properties_ny` LIMIT 20"
 
