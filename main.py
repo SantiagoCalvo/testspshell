@@ -8,6 +8,8 @@ from concurrent.futures import ThreadPoolExecutor
 import threading
 import time
 
+print("running script")
+
 thread_local = threading.local()
 
 chrome_options = webdriver.ChromeOptions()
@@ -30,7 +32,7 @@ project_id = "skw-test"
 # project_id = "carl-test-345816"
 client = bigquery.Client(project=project_id)
 
-query = "SELECT borough,block,lot,bbl FROM `skw-test.test_cloud_function.filteredPropertiesNY` LIMIT 300"
+query = "SELECT borough,block,lot,bbl FROM `skw-test.test_cloud_function.filteredPropertiesNY` LIMIT 30"
 # query = "SELECT borough,block,lot,bbl FROM `carl-test-345816.assessor_result.properties_ny` LIMIT 20"
 
 query_job = client.query(query)
@@ -114,10 +116,13 @@ for thread in threading.enumerate():
 
 """ close errors file """
 f.close()
+print("closing csv file with errors")
 
 """ Logic to save csv on cloud storage """
+print("saving errors on cloud storage")
 client_storage = storage.Client()
 bucket = client_storage.get_bucket('skw-bucket-test-1')
 # bucket = client_storage.get_bucket('data-lake-main')
 blob = bucket.blob('errorsScraping/NYTaxes.csv')
 blob.upload_from_filename(csv_folder)
+print("script finish")
