@@ -1,0 +1,6 @@
+# Function dependencies, for example:
+# package>=version
+google-api-python-client
+selenium
+gcloud
+google-cloud-bigquery
