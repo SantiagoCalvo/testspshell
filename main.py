@@ -102,7 +102,7 @@ def processRow(row):
     """ if error save on csv """
     save_on_csv(row, f"errors running scraping: {e}")
 
-with ThreadPoolExecutor(max_workers=10) as executor:
+with ThreadPoolExecutor(max_workers=6) as executor:
   for row in query_job:
     executor.submit(processRow, row)
 
