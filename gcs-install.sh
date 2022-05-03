@@ -1,12 +1,17 @@
 #!/usr/bin/env bash
 
-bucket='gs://web-scraper-config/config.json'
-
-set -v
-
 sudo apt-get update
+sudo apt-get install -yq git supervisor python3.7 python3-pip python3-distutils
+pip3 install --upgrade pip virtualenv
+
 sudo apt-get install -y chromium
-sudo apt-get install -y libgbm-dev
+# sudo apt-get install -y libgbm-dev
+
+python3.7 -m virtualenv py37
+source py37/bin/activate
+
+
+
 
 # curl -sL https://deb.nodesource.com/setup_12.x | bash -
 # apt-get install -yq git libgconf-2-4 nodejs
