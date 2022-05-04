@@ -34,7 +34,7 @@ client = bigquery.Client(project=project_id)
 
 # query = "SELECT borough,block,lot,bbl FROM `skw-test.test_cloud_function.filteredPropertiesNY` LIMIT 30"
 # query = "SELECT borough,block,lot,bbl FROM (SELECT borough,block,lot,bbl, ROW_NUMBER () OVER(ORDER BY bbl DESC) AS windex FROM `skw-test.test_cloud_function.filteredPropertiesNY`) WHERE windex BETWEEN 1 AND 100"
-query = "SELECT borough,block,lot,bbl FROM (SELECT borough,block,lot,bbl, ROW_NUMBER () OVER(ORDER BY bbl DESC) AS windex FROM `carl-test-345816.assessor_result.properties_ny`) WHERE windex BETWEEN 20001 AND 100000"
+query = "SELECT borough,block,lot,bbl FROM (SELECT borough,block,lot,bbl, ROW_NUMBER () OVER(ORDER BY bbl DESC) AS windex FROM `carl-test-345816.assessor_result.properties_ny`) WHERE windex BETWEEN 100001 AND 200000"
 # query = "SELECT borough,block,lot,bbl FROM `carl-test-345816.assessor_result.properties_ny` LIMIT 20"
 
 query_job = client.query(query)
@@ -125,6 +125,6 @@ print("saving errors on cloud storage")
 client_storage = storage.Client()
 # bucket = client_storage.get_bucket('skw-bucket-test-1')
 bucket = client_storage.get_bucket('data-lake-main')
-blob = bucket.blob('errorsScraping/NYTaxes1.csv')
+blob = bucket.blob('errorsScraping/NYTaxes2.csv')
 blob.upload_from_filename(csv_folder)
 print("script finish")
