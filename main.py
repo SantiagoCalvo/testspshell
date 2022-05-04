@@ -28,13 +28,13 @@ headers = ["borough", "block", "lot", "bbl", "accountBalanceErrors"]
 
 writer.writerow(headers)
 
-project_id = "skw-test"
-# project_id = "carl-test-345816"
+# project_id = "skw-test"
+project_id = "carl-test-345816"
 client = bigquery.Client(project=project_id)
 
 # query = "SELECT borough,block,lot,bbl FROM `skw-test.test_cloud_function.filteredPropertiesNY` LIMIT 30"
-query = "SELECT borough,block,lot,bbl FROM (SELECT borough,block,lot,bbl, ROW_NUMBER () OVER(ORDER BY bbl DESC) AS windex FROM `skw-test.test_cloud_function.filteredPropertiesNY`) WHERE windex BETWEEN 1 AND 100"
-# query = "SELECT borough,block,lot,bbl FROM (SELECT borough,block,lot,bbl, ROW_NUMBER () OVER(ORDER BY bbl DESC) AS windex FROM `carl-test-345816.assessor_result.properties_ny`) WHERE windex BETWEEN 5 AND 10"
+# query = "SELECT borough,block,lot,bbl FROM (SELECT borough,block,lot,bbl, ROW_NUMBER () OVER(ORDER BY bbl DESC) AS windex FROM `skw-test.test_cloud_function.filteredPropertiesNY`) WHERE windex BETWEEN 1 AND 100"
+query = "SELECT borough,block,lot,bbl FROM (SELECT borough,block,lot,bbl, ROW_NUMBER () OVER(ORDER BY bbl DESC) AS windex FROM `carl-test-345816.assessor_result.properties_ny`) WHERE windex BETWEEN 101 AND 20000"
 # query = "SELECT borough,block,lot,bbl FROM `carl-test-345816.assessor_result.properties_ny` LIMIT 20"
 
 query_job = client.query(query)
@@ -65,8 +65,8 @@ def processRow(row):
     Block_input = driver.find_element(By.ID,"inpTag")
     lot_input = driver.find_element(By.ID,"inpStat")
 
-    Borough = str(row['bbl'])[0] 
-    # Borough = row['bbl'][0]
+    # Borough = str(row['bbl'])[0] 
+    Borough = row['bbl'][0]
     Block = row['block']
     Lot = row['lot']
 
@@ -89,14 +89,14 @@ def processRow(row):
 
     """ safe on bq table """
     if total_account_balance >= 1000:
-      # rows_to_insert = [
-      #   {'bbl': row['bbl'], 'distress_signal': 'Overdue Taxes', 'created_date': time.time()}
-      # ]
       rows_to_insert = [
-        {'bbl': str(row['bbl']), 'distress_signal': 'Overdue Taxes', 'created_date': time.time()}
+        {'bbl': row['bbl'], 'distress_signal': 'Overdue Taxes', 'created_date': time.time()}
       ]
-      errors = bq_client.insert_rows_json('skw-test.test_cloud_function.taxesNYpropertyDS', rows_to_insert)
-      # errors = bq_client.insert_rows_json('carl-test-345816.assessor_result.distress_signal', rows_to_insert)
+    #   rows_to_insert = [
+    #     {'bbl': str(row['bbl']), 'distress_signal': 'Overdue Taxes', 'created_date': time.time()}
+    #   ]
+    #   errors = bq_client.insert_rows_json('skw-test.test_cloud_function.taxesNYpropertyDS', rows_to_insert)
+      errors = bq_client.insert_rows_json('carl-test-345816.assessor_result.distress_signal', rows_to_insert)
       if errors == []:
         # print("New rows have been added.")
         pass
@@ -123,8 +123,8 @@ print("closing csv file with errors")
 """ Logic to save csv on cloud storage """
 print("saving errors on cloud storage")
 client_storage = storage.Client()
-bucket = client_storage.get_bucket('skw-bucket-test-1')
-# bucket = client_storage.get_bucket('data-lake-main')
+# bucket = client_storage.get_bucket('skw-bucket-test-1')
+bucket = client_storage.get_bucket('data-lake-main')
 blob = bucket.blob('errorsScraping/NYTaxes.csv')
 blob.upload_from_filename(csv_folder)
 print("script finish")
