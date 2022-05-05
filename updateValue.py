@@ -18,8 +18,8 @@ chrome_options.add_argument('--no-sandbox')
 chrome_options.add_argument('--disable-dev-shm-usage')
 driver = webdriver.Chrome('chromedriver',options=chrome_options)
 
-csv_folder = "/content/drive/MyDrive/Colab Notebooks/skw scraping/NYTaxes.csv"
-# csv_folder = "/NYTaxes.csv"
+# csv_folder = "/content/drive/MyDrive/Colab Notebooks/skw scraping/NYTaxes.csv"
+csv_folder = "/NYTaxes.csv"
 
 f = open(csv_folder, "w")
 
